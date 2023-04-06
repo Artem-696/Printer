@@ -1,0 +1,274 @@
+USE [master]
+GO
+/****** Object:  Database [Print]    Script Date: 04.04.2023 23:15:38 ******/
+CREATE DATABASE [Print]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Print', FILENAME = N'd:\Program Files\Microsoft SQL Server\MSSQL11.SQLEXPRESS\MSSQL\DATA\Print.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'Print_log', FILENAME = N'd:\Program Files\Microsoft SQL Server\MSSQL11.SQLEXPRESS\MSSQL\DATA\Print_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [Print] SET COMPATIBILITY_LEVEL = 110
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Print].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Print] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Print] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Print] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Print] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Print] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Print] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Print] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [Print] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Print] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Print] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Print] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Print] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Print] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Print] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Print] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Print] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Print] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Print] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Print] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Print] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Print] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Print] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Print] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Print] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [Print] SET  MULTI_USER 
+GO
+ALTER DATABASE [Print] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Print] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Print] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Print] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+USE [Print]
+GO
+/****** Object:  Table [dbo].[Картриджи]    Script Date: 04.04.2023 23:15:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Картриджи](
+	[id_картриджа] [int] IDENTITY(1,1) NOT NULL,
+	[Название] [varchar](50) NOT NULL,
+	[Тип_картриджа] [varchar](50) NOT NULL,
+	[Статус] [varchar](50) NOT NULL,
+	[Дата_заправки] [date] NOT NULL,
+	[Количество_заправок] [nchar](10) NOT NULL,
+	[id_тонер] [int] NULL,
+ CONSTRAINT [PK_Картриджи] PRIMARY KEY CLUSTERED 
+(
+	[id_картриджа] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Неисправность]    Script Date: 04.04.2023 23:15:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Неисправность](
+	[id_неисправность] [int] IDENTITY(1,1) NOT NULL,
+	[Описание] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Неисправность] PRIMARY KEY CLUSTERED 
+(
+	[id_неисправность] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Ответственные]    Script Date: 04.04.2023 23:15:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Ответственные](
+	[id_ответственные] [int] IDENTITY(1,1) NOT NULL,
+	[Фамилия] [varchar](50) NOT NULL,
+	[Имя] [varchar](50) NOT NULL,
+	[Отчество] [varchar](50) NOT NULL,
+	[Дожность] [varchar](50) NOT NULL,
+	[Телефон] [nchar](10) NOT NULL,
+ CONSTRAINT [PK_Ответственные] PRIMARY KEY CLUSTERED 
+(
+	[id_ответственные] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Поставщики]    Script Date: 04.04.2023 23:15:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Поставщики](
+	[id_поставщика] [int] IDENTITY(1,1) NOT NULL,
+	[Название_организации] [varchar](50) NOT NULL,
+	[ФИО_поставщика] [varchar](50) NOT NULL,
+	[Телефон] [nchar](10) NOT NULL,
+	[Адрес] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Поставщики] PRIMARY KEY CLUSTERED 
+(
+	[id_поставщика] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Принтеры]    Script Date: 04.04.2023 23:15:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Принтеры](
+	[id_принтера] [int] IDENTITY(1,1) NOT NULL,
+	[Инвентарный_номер] [nchar](10) NOT NULL,
+	[Модель_принтера] [varchar](50) NOT NULL,
+	[Тип_принтера] [varchar](50) NOT NULL,
+	[id_поставщика] [int] NULL,
+	[Гарантия] [nchar](10) NOT NULL,
+	[Дата_покупки] [date] NOT NULL,
+	[Дата_списания] [date] NOT NULL,
+	[id_картриджи] [int] NULL,
+	[Статус] [varchar](50) NOT NULL,
+	[id_ответственные] [int] NULL,
+	[Кабинет] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Принтеры] PRIMARY KEY CLUSTERED 
+(
+	[id_принтера] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Ремонт]    Script Date: 04.04.2023 23:15:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Ремонт](
+	[id_ремонт] [int] IDENTITY(1,1) NOT NULL,
+	[Дата_ремонта] [date] NOT NULL,
+	[Описание_ремонта] [varchar](50) NOT NULL,
+	[id_неисправность] [int] NULL,
+	[Цена_ремонта] [nchar](10) NOT NULL,
+	[id_принтера] [int] NULL,
+	[Модели_принтера] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Ремонт] PRIMARY KEY CLUSTERED 
+(
+	[id_ремонт] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Тонер]    Script Date: 04.04.2023 23:15:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Тонер](
+	[id_тонер] [int] IDENTITY(1,1) NOT NULL,
+	[Макрка] [varchar](50) NOT NULL,
+	[Тип_тонера] [varchar](50) NOT NULL,
+	[Количество] [nchar](10) NOT NULL,
+	[Дата_списания] [datetime] NOT NULL,
+ CONSTRAINT [PK_Тонер] PRIMARY KEY CLUSTERED 
+(
+	[id_тонер] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+ALTER TABLE [dbo].[Картриджи]  WITH CHECK ADD  CONSTRAINT [FK_Картриджи_Тонер] FOREIGN KEY([id_тонер])
+REFERENCES [dbo].[Тонер] ([id_тонер])
+GO
+ALTER TABLE [dbo].[Картриджи] CHECK CONSTRAINT [FK_Картриджи_Тонер]
+GO
+ALTER TABLE [dbo].[Принтеры]  WITH CHECK ADD  CONSTRAINT [FK_Принтеры_Картриджи1] FOREIGN KEY([id_картриджи])
+REFERENCES [dbo].[Картриджи] ([id_картриджа])
+GO
+ALTER TABLE [dbo].[Принтеры] CHECK CONSTRAINT [FK_Принтеры_Картриджи1]
+GO
+ALTER TABLE [dbo].[Принтеры]  WITH CHECK ADD  CONSTRAINT [FK_Принтеры_Ответственные] FOREIGN KEY([id_ответственные])
+REFERENCES [dbo].[Ответственные] ([id_ответственные])
+GO
+ALTER TABLE [dbo].[Принтеры] CHECK CONSTRAINT [FK_Принтеры_Ответственные]
+GO
+ALTER TABLE [dbo].[Принтеры]  WITH CHECK ADD  CONSTRAINT [FK_Принтеры_Поставщики] FOREIGN KEY([id_поставщика])
+REFERENCES [dbo].[Поставщики] ([id_поставщика])
+GO
+ALTER TABLE [dbo].[Принтеры] CHECK CONSTRAINT [FK_Принтеры_Поставщики]
+GO
+ALTER TABLE [dbo].[Ремонт]  WITH CHECK ADD  CONSTRAINT [FK_Ремонт_Неисправность] FOREIGN KEY([id_неисправность])
+REFERENCES [dbo].[Неисправность] ([id_неисправность])
+GO
+ALTER TABLE [dbo].[Ремонт] CHECK CONSTRAINT [FK_Ремонт_Неисправность]
+GO
+ALTER TABLE [dbo].[Ремонт]  WITH CHECK ADD  CONSTRAINT [FK_Ремонт_Принтеры] FOREIGN KEY([id_принтера])
+REFERENCES [dbo].[Принтеры] ([id_принтера])
+GO
+ALTER TABLE [dbo].[Ремонт] CHECK CONSTRAINT [FK_Ремонт_Принтеры]
+GO
+USE [master]
+GO
+ALTER DATABASE [Print] SET  READ_WRITE 
+GO
