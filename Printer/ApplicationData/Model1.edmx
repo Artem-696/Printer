@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Картриджи">
+          <Key>
+            <PropertyRef Name="id_картриджа" />
+          </Key>
+          <Property Name="id_картриджа" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Тип_картриджа" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Статус" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Дата_заправки" Type="date" Nullable="false" />
+          <Property Name="Количество_заправок" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="id_тонер" Type="int" />
+        </EntityType>
+        <EntityType Name="Неисправность">
+          <Key>
+            <PropertyRef Name="id_неисправность" />
+          </Key>
+          <Property Name="id_неисправность" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Описание" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ответственные">
+          <Key>
+            <PropertyRef Name="id_ответственные" />
+          </Key>
+          <Property Name="id_ответственные" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Дожность" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Телефон" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Поставщики">
+          <Key>
+            <PropertyRef Name="id_поставщика" />
+          </Key>
+          <Property Name="id_поставщика" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название_организации" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ФИО_поставщика" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Телефон" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Адрес" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Принтеры">
+          <Key>
+            <PropertyRef Name="id_принтера" />
+          </Key>
+          <Property Name="id_принтера" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Инвентарный_номер" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Модель_принтера" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Тип_принтера" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_поставщика" Type="int" />
+          <Property Name="Гарантия" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Дата_покупки" Type="date" Nullable="false" />
+          <Property Name="Дата_списания" Type="date" Nullable="false" />
+          <Property Name="id_картриджи" Type="int" />
+          <Property Name="Статус" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_ответственные" Type="int" />
+          <Property Name="Кабинет" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ремонт">
+          <Key>
+            <PropertyRef Name="id_ремонт" />
+          </Key>
+          <Property Name="id_ремонт" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Дата_ремонта" Type="date" Nullable="false" />
+          <Property Name="Описание_ремонта" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_неисправность" Type="int" />
+          <Property Name="Цена_ремонта" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="id_принтера" Type="int" />
+          <Property Name="Модели_принтера" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Тонер">
+          <Key>
+            <PropertyRef Name="id_тонер" />
+          </Key>
+          <Property Name="id_тонер" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Макрка" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Тип_тонера" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Количество" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Дата_списания" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Картриджи_Тонер">
+          <End Role="Тонер" Type="Self.Тонер" Multiplicity="0..1" />
+          <End Role="Картриджи" Type="Self.Картриджи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Тонер">
+              <PropertyRef Name="id_тонер" />
+            </Principal>
+            <Dependent Role="Картриджи">
+              <PropertyRef Name="id_тонер" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Принтеры_Картриджи1">
+          <End Role="Картриджи" Type="Self.Картриджи" Multiplicity="0..1" />
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Картриджи">
+              <PropertyRef Name="id_картриджа" />
+            </Principal>
+            <Dependent Role="Принтеры">
+              <PropertyRef Name="id_картриджи" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Принтеры_Ответственные">
+          <End Role="Ответственные" Type="Self.Ответственные" Multiplicity="0..1" />
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ответственные">
+              <PropertyRef Name="id_ответственные" />
+            </Principal>
+            <Dependent Role="Принтеры">
+              <PropertyRef Name="id_ответственные" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Принтеры_Поставщики">
+          <End Role="Поставщики" Type="Self.Поставщики" Multiplicity="0..1" />
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Поставщики">
+              <PropertyRef Name="id_поставщика" />
+            </Principal>
+            <Dependent Role="Принтеры">
+              <PropertyRef Name="id_поставщика" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ремонт_Неисправность">
+          <End Role="Неисправность" Type="Self.Неисправность" Multiplicity="0..1" />
+          <End Role="Ремонт" Type="Self.Ремонт" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Неисправность">
+              <PropertyRef Name="id_неисправность" />
+            </Principal>
+            <Dependent Role="Ремонт">
+              <PropertyRef Name="id_неисправность" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ремонт_Принтеры">
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="0..1" />
+          <End Role="Ремонт" Type="Self.Ремонт" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Принтеры">
+              <PropertyRef Name="id_принтера" />
+            </Principal>
+            <Dependent Role="Ремонт">
+              <PropertyRef Name="id_принтера" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Картриджи" EntityType="Self.Картриджи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Неисправность" EntityType="Self.Неисправность" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ответственные" EntityType="Self.Ответственные" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Поставщики" EntityType="Self.Поставщики" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Принтеры" EntityType="Self.Принтеры" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ремонт" EntityType="Self.Ремонт" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Тонер" EntityType="Self.Тонер" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Картриджи_Тонер" Association="Self.FK_Картриджи_Тонер">
+            <End Role="Тонер" EntitySet="Тонер" />
+            <End Role="Картриджи" EntitySet="Картриджи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Принтеры_Картриджи1" Association="Self.FK_Принтеры_Картриджи1">
+            <End Role="Картриджи" EntitySet="Картриджи" />
+            <End Role="Принтеры" EntitySet="Принтеры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Принтеры_Ответственные" Association="Self.FK_Принтеры_Ответственные">
+            <End Role="Ответственные" EntitySet="Ответственные" />
+            <End Role="Принтеры" EntitySet="Принтеры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Принтеры_Поставщики" Association="Self.FK_Принтеры_Поставщики">
+            <End Role="Поставщики" EntitySet="Поставщики" />
+            <End Role="Принтеры" EntitySet="Принтеры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ремонт_Неисправность" Association="Self.FK_Ремонт_Неисправность">
+            <End Role="Неисправность" EntitySet="Неисправность" />
+            <End Role="Ремонт" EntitySet="Ремонт" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ремонт_Принтеры" Association="Self.FK_Ремонт_Принтеры">
+            <End Role="Принтеры" EntitySet="Принтеры" />
+            <End Role="Ремонт" EntitySet="Ремонт" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Картриджи">
+          <Key>
+            <PropertyRef Name="id_картриджа" />
+          </Key>
+          <Property Name="id_картриджа" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Тип_картриджа" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Статус" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Дата_заправки" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Количество_заправок" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="id_тонер" Type="Int32" />
+          <NavigationProperty Name="Тонер" Relationship="Self.FK_Картриджи_Тонер" FromRole="Картриджи" ToRole="Тонер" />
+          <NavigationProperty Name="Принтеры" Relationship="Self.FK_Принтеры_Картриджи1" FromRole="Картриджи" ToRole="Принтеры" />
+        </EntityType>
+        <EntityType Name="Неисправность">
+          <Key>
+            <PropertyRef Name="id_неисправность" />
+          </Key>
+          <Property Name="id_неисправность" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Ремонт" Relationship="Self.FK_Ремонт_Неисправность" FromRole="Неисправность" ToRole="Ремонт" />
+        </EntityType>
+        <EntityType Name="Ответственные">
+          <Key>
+            <PropertyRef Name="id_ответственные" />
+          </Key>
+          <Property Name="id_ответственные" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Дожность" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Принтеры" Relationship="Self.FK_Принтеры_Ответственные" FromRole="Ответственные" ToRole="Принтеры" />
+        </EntityType>
+        <EntityType Name="Поставщики">
+          <Key>
+            <PropertyRef Name="id_поставщика" />
+          </Key>
+          <Property Name="id_поставщика" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название_организации" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ФИО_поставщика" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Принтеры" Relationship="Self.FK_Принтеры_Поставщики" FromRole="Поставщики" ToRole="Принтеры" />
+        </EntityType>
+        <EntityType Name="Принтеры">
+          <Key>
+            <PropertyRef Name="id_принтера" />
+          </Key>
+          <Property Name="id_принтера" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Инвентарный_номер" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Модель_принтера" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Тип_принтера" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_поставщика" Type="Int32" />
+          <Property Name="Гарантия" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Дата_покупки" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Дата_списания" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="id_картриджи" Type="Int32" />
+          <Property Name="Статус" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_ответственные" Type="Int32" />
+          <Property Name="Кабинет" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Картриджи" Relationship="Self.FK_Принтеры_Картриджи1" FromRole="Принтеры" ToRole="Картриджи" />
+          <NavigationProperty Name="Ответственные" Relationship="Self.FK_Принтеры_Ответственные" FromRole="Принтеры" ToRole="Ответственные" />
+          <NavigationProperty Name="Поставщики" Relationship="Self.FK_Принтеры_Поставщики" FromRole="Принтеры" ToRole="Поставщики" />
+          <NavigationProperty Name="Ремонт" Relationship="Self.FK_Ремонт_Принтеры" FromRole="Принтеры" ToRole="Ремонт" />
+        </EntityType>
+        <EntityType Name="Ремонт">
+          <Key>
+            <PropertyRef Name="id_ремонт" />
+          </Key>
+          <Property Name="id_ремонт" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Дата_ремонта" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Описание_ремонта" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_неисправность" Type="Int32" />
+          <Property Name="Цена_ремонта" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="id_принтера" Type="Int32" />
+          <Property Name="Модели_принтера" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Неисправность" Relationship="Self.FK_Ремонт_Неисправность" FromRole="Ремонт" ToRole="Неисправность" />
+          <NavigationProperty Name="Принтеры" Relationship="Self.FK_Ремонт_Принтеры" FromRole="Ремонт" ToRole="Принтеры" />
+        </EntityType>
+        <EntityType Name="Тонер">
+          <Key>
+            <PropertyRef Name="id_тонер" />
+          </Key>
+          <Property Name="id_тонер" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Макрка" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Тип_тонера" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Количество" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Дата_списания" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Картриджи" Relationship="Self.FK_Картриджи_Тонер" FromRole="Тонер" ToRole="Картриджи" />
+        </EntityType>
+        <Association Name="FK_Картриджи_Тонер">
+          <End Role="Тонер" Type="Self.Тонер" Multiplicity="0..1" />
+          <End Role="Картриджи" Type="Self.Картриджи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Тонер">
+              <PropertyRef Name="id_тонер" />
+            </Principal>
+            <Dependent Role="Картриджи">
+              <PropertyRef Name="id_тонер" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Принтеры_Картриджи1">
+          <End Role="Картриджи" Type="Self.Картриджи" Multiplicity="0..1" />
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Картриджи">
+              <PropertyRef Name="id_картриджа" />
+            </Principal>
+            <Dependent Role="Принтеры">
+              <PropertyRef Name="id_картриджи" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ремонт_Неисправность">
+          <End Role="Неисправность" Type="Self.Неисправность" Multiplicity="0..1" />
+          <End Role="Ремонт" Type="Self.Ремонт" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Неисправность">
+              <PropertyRef Name="id_неисправность" />
+            </Principal>
+            <Dependent Role="Ремонт">
+              <PropertyRef Name="id_неисправность" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Принтеры_Ответственные">
+          <End Role="Ответственные" Type="Self.Ответственные" Multiplicity="0..1" />
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ответственные">
+              <PropertyRef Name="id_ответственные" />
+            </Principal>
+            <Dependent Role="Принтеры">
+              <PropertyRef Name="id_ответственные" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Принтеры_Поставщики">
+          <End Role="Поставщики" Type="Self.Поставщики" Multiplicity="0..1" />
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Поставщики">
+              <PropertyRef Name="id_поставщика" />
+            </Principal>
+            <Dependent Role="Принтеры">
+              <PropertyRef Name="id_поставщика" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ремонт_Принтеры">
+          <End Role="Принтеры" Type="Self.Принтеры" Multiplicity="0..1" />
+          <End Role="Ремонт" Type="Self.Ремонт" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Принтеры">
+              <PropertyRef Name="id_принтера" />
+            </Principal>
+            <Dependent Role="Ремонт">
+              <PropertyRef Name="id_принтера" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PrintEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Картриджи" EntityType="Self.Картриджи" />
+          <EntitySet Name="Неисправность" EntityType="Self.Неисправность" />
+          <EntitySet Name="Ответственные" EntityType="Self.Ответственные" />
+          <EntitySet Name="Поставщики" EntityType="Self.Поставщики" />
+          <EntitySet Name="Принтеры" EntityType="Self.Принтеры" />
+          <EntitySet Name="Ремонт" EntityType="Self.Ремонт" />
+          <EntitySet Name="Тонер" EntityType="Self.Тонер" />
+          <AssociationSet Name="FK_Картриджи_Тонер" Association="Self.FK_Картриджи_Тонер">
+            <End Role="Тонер" EntitySet="Тонер" />
+            <End Role="Картриджи" EntitySet="Картриджи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Принтеры_Картриджи1" Association="Self.FK_Принтеры_Картриджи1">
+            <End Role="Картриджи" EntitySet="Картриджи" />
+            <End Role="Принтеры" EntitySet="Принтеры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ремонт_Неисправность" Association="Self.FK_Ремонт_Неисправность">
+            <End Role="Неисправность" EntitySet="Неисправность" />
+            <End Role="Ремонт" EntitySet="Ремонт" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Принтеры_Ответственные" Association="Self.FK_Принтеры_Ответственные">
+            <End Role="Ответственные" EntitySet="Ответственные" />
+            <End Role="Принтеры" EntitySet="Принтеры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Принтеры_Поставщики" Association="Self.FK_Принтеры_Поставщики">
+            <End Role="Поставщики" EntitySet="Поставщики" />
+            <End Role="Принтеры" EntitySet="Принтеры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ремонт_Принтеры" Association="Self.FK_Ремонт_Принтеры">
+            <End Role="Принтеры" EntitySet="Принтеры" />
+            <End Role="Ремонт" EntitySet="Ремонт" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="PrintEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Картриджи">
+            <EntityTypeMapping TypeName="Model.Картриджи">
+              <MappingFragment StoreEntitySet="Картриджи">
+                <ScalarProperty Name="id_картриджа" ColumnName="id_картриджа" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Тип_картриджа" ColumnName="Тип_картриджа" />
+                <ScalarProperty Name="Статус" ColumnName="Статус" />
+                <ScalarProperty Name="Дата_заправки" ColumnName="Дата_заправки" />
+                <ScalarProperty Name="Количество_заправок" ColumnName="Количество_заправок" />
+                <ScalarProperty Name="id_тонер" ColumnName="id_тонер" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Неисправность">
+            <EntityTypeMapping TypeName="Model.Неисправность">
+              <MappingFragment StoreEntitySet="Неисправность">
+                <ScalarProperty Name="id_неисправность" ColumnName="id_неисправность" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ответственные">
+            <EntityTypeMapping TypeName="Model.Ответственные">
+              <MappingFragment StoreEntitySet="Ответственные">
+                <ScalarProperty Name="id_ответственные" ColumnName="id_ответственные" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Дожность" ColumnName="Дожность" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Поставщики">
+            <EntityTypeMapping TypeName="Model.Поставщики">
+              <MappingFragment StoreEntitySet="Поставщики">
+                <ScalarProperty Name="id_поставщика" ColumnName="id_поставщика" />
+                <ScalarProperty Name="Название_организации" ColumnName="Название_организации" />
+                <ScalarProperty Name="ФИО_поставщика" ColumnName="ФИО_поставщика" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Принтеры">
+            <EntityTypeMapping TypeName="Model.Принтеры">
+              <MappingFragment StoreEntitySet="Принтеры">
+                <ScalarProperty Name="id_принтера" ColumnName="id_принтера" />
+                <ScalarProperty Name="Инвентарный_номер" ColumnName="Инвентарный_номер" />
+                <ScalarProperty Name="Модель_принтера" ColumnName="Модель_принтера" />
+                <ScalarProperty Name="Тип_принтера" ColumnName="Тип_принтера" />
+                <ScalarProperty Name="id_поставщика" ColumnName="id_поставщика" />
+                <ScalarProperty Name="Гарантия" ColumnName="Гарантия" />
+                <ScalarProperty Name="Дата_покупки" ColumnName="Дата_покупки" />
+                <ScalarProperty Name="Дата_списания" ColumnName="Дата_списания" />
+                <ScalarProperty Name="id_картриджи" ColumnName="id_картриджи" />
+                <ScalarProperty Name="Статус" ColumnName="Статус" />
+                <ScalarProperty Name="id_ответственные" ColumnName="id_ответственные" />
+                <ScalarProperty Name="Кабинет" ColumnName="Кабинет" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ремонт">
+            <EntityTypeMapping TypeName="Model.Ремонт">
+              <MappingFragment StoreEntitySet="Ремонт">
+                <ScalarProperty Name="id_ремонт" ColumnName="id_ремонт" />
+                <ScalarProperty Name="Дата_ремонта" ColumnName="Дата_ремонта" />
+                <ScalarProperty Name="Описание_ремонта" ColumnName="Описание_ремонта" />
+                <ScalarProperty Name="id_неисправность" ColumnName="id_неисправность" />
+                <ScalarProperty Name="Цена_ремонта" ColumnName="Цена_ремонта" />
+                <ScalarProperty Name="id_принтера" ColumnName="id_принтера" />
+                <ScalarProperty Name="Модели_принтера" ColumnName="Модели_принтера" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Тонер">
+            <EntityTypeMapping TypeName="Model.Тонер">
+              <MappingFragment StoreEntitySet="Тонер">
+                <ScalarProperty Name="id_тонер" ColumnName="id_тонер" />
+                <ScalarProperty Name="Макрка" ColumnName="Макрка" />
+                <ScalarProperty Name="Тип_тонера" ColumnName="Тип_тонера" />
+                <ScalarProperty Name="Количество" ColumnName="Количество" />
+                <ScalarProperty Name="Дата_списания" ColumnName="Дата_списания" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

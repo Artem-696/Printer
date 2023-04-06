@@ -1,0 +1,48 @@
+﻿<Page x:Class="Printer.toner"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Printer"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="toner">
+    <DockPanel>
+        <Grid DockPanel.Dock="Left">
+            <StackPanel Background="#FFA5C6DF">
+                <Label Content="Тонер" Margin="15 0 15 0" Foreground="Black" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+                <WrapPanel  Margin="15 2 15 0">
+                    <Label Content="Макрка:" Foreground="Black" FontSize="14"  HorizontalContentAlignment="Right" Width="140"/>
+                    <TextBox x:Name="N1"  Width="90"/>
+                </WrapPanel>
+                <WrapPanel  Margin="15 2 15 0">
+                    <Label Content="Тип тонера:" Foreground="Black" FontSize="14"  HorizontalContentAlignment="Right" Width="140"/>
+                    <TextBox x:Name="N2"  Width="90"/>
+                </WrapPanel>
+                <WrapPanel  Margin="15 2 15 0">
+                    <Label Content="Количество:" Foreground="Black" FontSize="14"  HorizontalContentAlignment="Right" Width="140"/>
+                    <TextBox x:Name="N3"  Width="90"/>
+                </WrapPanel>
+
+                <WrapPanel  Margin="15 2 15 0">
+                    <Label Content="Дата списания:" Foreground="Black" FontSize="14"  HorizontalContentAlignment="Right" Width="80"/>
+                    <DatePicker BorderThickness="0" x:Name="N4"  Width="139"/>
+                </WrapPanel>
+                <Button BorderThickness="0" Content="Добавить" Margin="15 5 15 0" Height="25" FontSize="14" FontWeight="Bold"  Foreground="White" Background="Black" x:Name="AddEmployee" Click="AddEmployee_Click"/>
+                <Button Content="Удалить" Margin="15 5 15 0" Height="25" FontSize="14" FontWeight="Bold"  Foreground="White" Background="Black" x:Name="Del" Click="Del_Click"/>
+
+
+            </StackPanel>
+        </Grid>
+        <DataGrid x:Name="dataGrid" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Макрка" Binding="{Binding Макрка}" Width="*" />
+                <DataGridTextColumn Header="Тип тонера" Binding="{Binding Тип_тонера}" Width="*" />
+                <DataGridTextColumn Header="Количество" Binding="{Binding Количество}" Width="*" />
+                <DataGridTextColumn Header="Дата списания" Binding="{Binding Дата_списания}" Width="*" />
+               
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Page>

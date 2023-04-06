@@ -1,0 +1,17 @@
+﻿<Window x:Class="Printer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Printer"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Приветствие" Height="450" Width="800">
+    <StackPanel Background="LightBlue">
+        <Label Content="Приложение для учета оргтехники" FontSize="20" Height="40" HorizontalContentAlignment="Center"  FontWeight="Bold" VerticalAlignment="Center"/>
+        <Image Source="/image/Printer.png" Height="327" />
+        <Label/>
+        <Button Content="Начать работу" FontSize="20" FontWeight="Bold"  Width="300" Background="#FF3281A1" Click="workStartBth" Cursor="Hand"/>
+
+    </StackPanel>
+</Window>
